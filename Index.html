@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pigeon Family Tree</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pigeon Family Tree</h1>
+        
+        <div class="family-tree">
+            <!-- Parent Pigeons -->
+            <div class="pigeon-box" id="parent1">
+                <h3>Parent 1</h3>
+                <button onclick="editPigeon('parent1')">Edit</button>
+                <button onclick="addSpouse('parent1')">Add Spouse</button>
+                <button onclick="addChild('parent1')">Add Child</button>
+            </div>
+
+            <div class="pigeon-box" id="parent2">
+                <h3>Parent 2</h3>
+                <button onclick="editPigeon('parent2')">Edit</button>
+                <button onclick="addSpouse('parent2')">Add Spouse</button>
+                <button onclick="addChild('parent2')">Add Child</button>
+            </div>
+
+            <div class="pigeon-line" id="line1"></div>
+
+            <!-- Children (Initially empty) -->
+            <div class="children" id="children"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
