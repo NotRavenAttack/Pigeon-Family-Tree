@@ -4,12 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pigeon Family Tree</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Container and overall layout */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* Family Tree Section */
+        .family-tree {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pigeon-box {
+            width: 200px;
+            height: 100px;
+            border: 2px solid black;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 10px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .pigeon-line {
+            height: 2px;
+            width: 200px;
+            background-color: black;
+            position: absolute;
+            top: 110px; /* Adjust for line position */
+        }
+
+        .children {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* Animation for Fade-in */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Button Styles */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Pigeon Family Tree</h1>
-        
+
         <div class="family-tree">
             <!-- Parent Pigeons -->
             <div class="pigeon-box" id="parent1">
@@ -33,6 +114,63 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Add Child functionality
+        function addChild(parentId) {
+            let parent = document.getElementById(parentId);
+            let childrenContainer = document.getElementById('children');
+
+            // Limit to 2 children per parent
+            if (childrenContainer.children.length < 2) {
+                let childBox = document.createElement('div');
+                childBox.classList.add('pigeon-box');
+                childBox.innerHTML = `
+                    <h3>Child ${childrenContainer.children.length + 1}</h3>
+                    <button onclick="editPigeon('child${childrenContainer.children.length + 1}')">Edit</button>
+                    <button onclick="addSpouse('child${childrenContainer.children.length + 1}')">Add Spouse</button>
+                    <button onclick="addChild('child${childrenContainer.children.length + 1}')">Add Child</button>
+                `;
+
+                childBox.id = `child${childrenContainer.children.length + 1}`;
+                childrenContainer.appendChild(childBox);
+
+                // Create a new line from parent to child
+                let line = document.createElement('div');
+                line.classList.add('pigeon-line');
+                document.body.appendChild(line);
+
+                // Animate fade-in for the child
+                setTimeout(() => {
+                    childBox.style.opacity = 1;
+                }, 100);
+
+            } else {
+                alert("A pigeon can only have up to 2 children.");
+            }
+        }
+
+        // Add Spouse functionality
+        function addSpouse(pigeonId) {
+            let pigeon = document.getElementById(pigeonId);
+            let spouseBox = document.createElement('div');
+            spouseBox.classList.add('pigeon-box');
+            spouseBox.innerHTML = `
+                <h3>Spouse</h3>
+                <button onclick="editPigeon('spouse')">Edit</button>
+            `;
+
+            spouseBox.id = 'spouse';
+            pigeon.parentElement.insertBefore(spouseBox, pigeon.nextSibling);
+        }
+
+        // Edit Pigeon functionality
+        function editPigeon(pigeonId) {
+            let pigeon = document.getElementById(pigeonId);
+            let name = prompt("Edit Name:", pigeon.querySelector('h3').innerText);
+            if (name) {
+                pigeon.querySelector('h3').innerText = name;
+            }
+        }
+    </script>
 </body>
 </html>
